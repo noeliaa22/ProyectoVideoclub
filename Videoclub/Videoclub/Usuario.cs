@@ -16,7 +16,7 @@ namespace Videoclub
         public string Contrasena { get; set; }
         public List<Peliculas> ListaPeliculasUsuario { get; set; }
 
-       
+
         public Usuario(int iD, string nombre, string apellido, DateTime fechaNacimiento, string email, string contrasena, List<Peliculas> listaPeliculasUsuario) : this(iD, nombre, apellido, fechaNacimiento, email, contrasena)
         {
             ListaPeliculasUsuario = listaPeliculasUsuario;
@@ -35,8 +35,6 @@ namespace Videoclub
         public Usuario()
         {
         } //Constructor vacio
-
-
         public bool ComprobarUsuario(string email, string contrasena)
         {
             bool usuarioRegistrado = false;
@@ -79,17 +77,57 @@ namespace Videoclub
             return reader;
 
         }
-        public bool EdadCorrecta()
+        public bool EdadCorrecta(string fecha)
         {
-            return true;
+            bool edadCorrecta = false;
+            DateTime fechaNacimiento;
+            if (DateTime.TryParse(fecha, out fechaNacimiento))
+            {
+                if (fechaNacimiento < DateTime.Today && fechaNacimiento > Convert.ToDateTime("01/01/1919"))
+                {
+                    edadCorrecta = true;
+                    FechaNacimiento = fechaNacimiento;
+                }
+                else
+                {
+                Console.WriteLine("La fecha de nacimiento debe ser menor a hoy y mayor al 01/01/1919");                    
+                }
+            }
+            else
+            {
+                Console.WriteLine("Debe introducir un formato correcto de fecha");
+            }
+            return edadCorrecta;
         }
-        public bool EmailCorrecto()
+        public bool EmailCorrecto(string email)
         {
-            return true;
+            bool emailCorrecto = false;
+            if (email.Contains("@") && email.Substring(email.Length-4)==".com")
+            {
+                emailCorrecto = true;
+                Email = email;
+            }
+            else
+            {
+                Console.WriteLine("El formato del email debe ser el siguiente: 'xxxxx@yyyyy.com' ");
+            }
+
+            return emailCorrecto;
         }
-        public bool ContrasenaCorrecta()
+        public bool ContrasenaCorrecta(string contrasena)
         {
-            return true;
+            bool contrasenaCorrecta = false;
+            if (contrasena.Length<=8 && contrasena.Length>=1)
+            {
+                contrasenaCorrecta = true;
+                Contrasena = Contrasena;
+            }
+            else
+            {
+                Console.WriteLine("La contraseña debe tener mínimo un caracter y máximo 8");
+            }
+
+            return contrasenaCorrecta;
         }
 
         public List<Peliculas> CalcularListaPeliculasU()
@@ -139,6 +177,6 @@ namespace Videoclub
 
         }
 
-        
+
     }
 }

@@ -44,48 +44,7 @@ namespace Videoclub
             Console.WriteLine($"Edad recomendada: mayores de {EdadRecomendada} años");
             Console.WriteLine($"Estado:{Estado}");
         }
-        public void UpdateEstado(Peliculas pelicula)
-        {
-            string query = $"SELECT Estado from Peliculas WHERE ID={pelicula.ID}";
-            SqlDataReader reader = ConsultarBase(query);
-            if (reader.Read())
-            {
-                string estado = reader[0].ToString().ToUpper();
 
-                if (estado == "DISPONIBLE")
-                {
-                    query = $"Update Habitaciones SET ESTADO ='OCUPADA'";
-                    ModificarBase(query);
-                }
-                else if (estado == "OCUPADA")
-                {
-                    query = $"Update Habitaciones SET ESTADO ='DISPONIBLE'";
-                    ModificarBase(query);
-                }
-                else
-                {
-                    Console.WriteLine("No se ha podido cambiar el estado");
-                }
-            }
-        }
-        public SqlDataReader ConsultarBase(string query)
-        {
-            connection.Open(); //Abrir la conexión
-            SqlCommand command = new SqlCommand(query, connection); //Conectar el comando con sql, SIEMPRE TIENE QUE ESTAR
-            SqlDataReader reader = command.ExecuteReader();
-            return reader;
-
-        }
-        public static void ModificarBase(string query)
-        {
-            if (query != null)
-            {
-                connection.Open();
-                SqlCommand command = new SqlCommand(query, connection); //Conectar el comando con sql, SIEMPRE TIENE QUE ESTAR
-                command.ExecuteNonQuery();
-                connection.Close();
-            }
-        }
 
     }
 }

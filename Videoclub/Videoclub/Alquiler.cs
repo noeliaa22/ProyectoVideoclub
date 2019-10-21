@@ -30,10 +30,6 @@ namespace Videoclub
             IDPelicula = iDPelicula;
             FechaAlquiler = fechaAlquiler;
         }
-
-        public void Insertar()
-        {
-
-        }
+        
     }
 }
